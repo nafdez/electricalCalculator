@@ -45,6 +45,13 @@ public class Main {
 			Process p = new ProcessBuilder(cmd).redirectError(Redirect.INHERIT)
 			                                   .redirectOutput(Redirect.INHERIT)
 			                                   .start();
+//			String classLoad = "scripts.Help";
+//			try {
+//				Class.forName(classLoad);
+//			} catch (ClassNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			try {
 				p.waitFor();
 			} catch (InterruptedException e) {
@@ -63,12 +70,12 @@ public class Main {
 	}
 
 	public static String getResPath() {
-		File f = new File("resources/");
+		File f = new File("scripts");
 		return f.getAbsolutePath();
 	}
 
 	public static String[] scanDir() {
-		File carpeta = new File("resources/scripts");
+		File carpeta = new File("scripts");
 		String[] listado = carpeta.list();
 		if (listado == null || listado.length == 0) {
 			System.out.println("No hay elementos dentro de la carpeta actual");
