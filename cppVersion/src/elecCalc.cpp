@@ -6,12 +6,6 @@
 #include <regex>
 #include <cstdlib>
 
-#ifdef __linux__
-#define SO "Linux"
-#elif _WIN32
-#define SO "Windows"
-#endif
-
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -19,20 +13,17 @@ namespace fs = std::filesystem;
 // On the other hand, the for loop read the name of each file and prints to console
 // Pendiente de cambios:
 // Cambiar src a la carpeta final en la que estará, o en su defecto camiar el regex_replace por un concat 'scripts'.
-string scriptSelector()
+string scriptSelector(string SystemName, string path)
 {
-    string path = fs::current_path().string();
-    path = regex_replace(path, regex("src"), "scripts");
-
     int menuNumber = 0;
     vector<string> files;
 
     for (const auto &file : fs::directory_iterator(path))
-    {
+        {
         files.push_back(file.path().string());
-        string fileWithoutPath = regex_replace(files.at(menuNumber), regex(path + "/"), "");
+        string fileWithoutPath = regex_replace(files.at(menuNumber), regex(path + "."), "");
         cout << ++menuNumber << ". " << fileWithoutPath << endl;
-    }
+        }
 
     cout << "\nWhich program do you want to run?" << endl;
 
@@ -46,15 +37,28 @@ string scriptSelector()
 
 void scriptLauncher(string filePath)
 {
-    filePath = filePath.insert(0, "./");
+    #ifdef __linux__
     system(("cd ../scripts && ./" + filePath).c_str());
+    #elif _WIN32
+    system(filePath.c_str());
+    #endif
+
 }
 
 int main()
 {
-    cout << SO << endl;
     cout << "Hello! Welcome to this shitty program!\nDo you need some help?\nYou have these options:\n"
          << endl;
-    scriptLauncher(scriptSelector());
+    
+    string path = fs::current_path().string();
+    #ifdef __linux__
+    #define SO "Linux"
+    path = regex_replace(path, regex("src"), "scripts/Linux");
+    scriptLauncher(scriptSelector("Linux", path));
+    #elif _WIN32
+    #define SO "Windows"
+    path = regex_replace(path, regex("src"), "scripts\\Windows");
+    scriptLauncher(scriptSelector("Windows", path));
+    #endif
     return 0;
 }

@@ -55,5 +55,14 @@ int main(){
         break;
     }
 
+    #ifdef __linux__
+    cout << endl;
+    system("read");
+    #elif _WIN32
+    cout << endl;
+    system("pause");
+    #endif
+    
+
     return 0;
 }
