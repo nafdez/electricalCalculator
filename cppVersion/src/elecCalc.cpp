@@ -6,6 +6,12 @@
 #include <regex>
 #include <cstdlib>
 
+#ifdef __linux__
+#define SO "Linux"
+#elif _WIN32
+#define SO "Windows"
+#endif
+
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -42,11 +48,11 @@ void scriptLauncher(string filePath)
 {
     filePath = filePath.insert(0, "./");
     system(("cd ../scripts && ./" + filePath).c_str());
-    cout << "hola";
 }
 
 int main()
 {
+    cout << SO << endl;
     cout << "Hello! Welcome to this shitty program!\nDo you need some help?\nYou have these options:\n"
          << endl;
     scriptLauncher(scriptSelector());
