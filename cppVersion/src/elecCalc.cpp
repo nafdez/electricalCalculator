@@ -38,7 +38,7 @@ string scriptSelector(string SystemName, string path)
 void scriptLauncher(string filePath)
 {
     #ifdef __linux__
-    system(("cd ../scripts && ./" + filePath).c_str());
+    system(("chmod +x " + fs::current_path().string() + "/../scripts/Linux/" + filePath + " && cd ../scripts/Linux && ./" + filePath).c_str());
     #elif _WIN32
     system(filePath.c_str());
     #endif
