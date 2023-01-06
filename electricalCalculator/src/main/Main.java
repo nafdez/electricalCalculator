@@ -41,31 +41,32 @@ public class Main {
 		laTonteriaDeLosPuntitos(".", 3);
 		clearConsole();
 		
-		String x = "y";
-		while (x.toLowerCase() == "y") {
-			String[] cmd = {"java", "-cp", getResPath(), "scripts." + file.replaceAll(".class", "")};
+		char x = 'y';
+		while (x == 'y' || x == 'Y') {
+			String[] cmd = {"java", "-cp", getResPath(), file};
 			Process p = new ProcessBuilder(cmd).redirectError(Redirect.INHERIT) // No se muy bien lo que hace, lo saqué de internet
 			                                   .redirectOutput(Redirect.INHERIT) // pero con esto se puede abrir una clase usando la terminal
 			                                   .start();
-			System.out.println();
+			for(String i : cmd)
+				System.out.println(i);
 			try {
 				p.waitFor();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			System.out.print("\nDo you want to continue using this script? (y/N): ");
-			x = in.readLine();
+			x = in.readLine().charAt(0);
 			
-			if (x.toLowerCase() == "y") { // Not working the moment
+			if (x == 'y' || x == 'Y') {
 				clearConsole();
-				System.out.println("Reloading" + file + "...\n");
+				System.out.println("\nReloading" + file + "...");
 			}
 		}
 		System.out.println("Exiting the script.");
 	}
 
 	public static String getResPath() {
-		File f = new File("");
+		File f = new File("scripts");
 		return f.getAbsolutePath();
 	}
 
@@ -88,6 +89,7 @@ public class Main {
 			}
 			System.out.print(".");
 		}
+		System.out.println();
 		// Pequeño método que en una línea repite el caracter o cadena que queramos y el número de veces
 		// No cumple ninguna función, pero en Python lo había hecho así y me salió de ahí meterlo aquí
 	}

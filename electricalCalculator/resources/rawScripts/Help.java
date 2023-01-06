@@ -1,4 +1,4 @@
-package rawScripts;
+package scripts;
 
 public class Help {	
 	public static void main(String[] args) {
