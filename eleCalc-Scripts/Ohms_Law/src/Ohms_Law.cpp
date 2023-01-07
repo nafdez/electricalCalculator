@@ -1,4 +1,4 @@
-#include <iostream>
+#include "Ohms_Law.h"
 using namespace std;
 
 int voltageOhm(){
